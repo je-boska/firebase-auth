@@ -10,7 +10,7 @@ export default function Login() {
   const emailRef = useRef()
   const passwordRef = useRef()
 
-  const { signup } = useAuth()
+  const { login, currentUser } = useAuth()
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -18,9 +18,9 @@ export default function Login() {
     try {
       setError('')
       setLoading(true)
-      await signup(emailRef.current.value, passwordRef.current.value)
+      await login(emailRef.current.value, passwordRef.current.value)
     } catch {
-      setError('Failed to create an acccount')
+      setError('Failed to log in')
     }
 
     setLoading(false)
@@ -32,6 +32,7 @@ export default function Login() {
         <Card.Body>
           <h2 className='text-center mb-4'>Log In</h2>
           {error && <Alert variant='danger'>{error}</Alert>}
+          {currentUser && currentUser.email}
           <Form onSubmit={e => handleSubmit(e)}>
             <Form.Group id='email'>
               <Form.Label>Email</Form.Label>
